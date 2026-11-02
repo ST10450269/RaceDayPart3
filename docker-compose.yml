@@ -1,0 +1,46 @@
+name: raceday
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-RaceDayDev!Pass2468}
+    ports:
+      - "127.0.0.1:14333:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:3.35.0
+    command: azurite --blobHost 0.0.0.0 --location /data
+    ports:
+      - "127.0.0.1:10000:10000"
+    volumes:
+      - blob_data:/data
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    depends_on:
+      - sqlserver
+      - azurite
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__RaceDay: "Server=sqlserver,1433;Database=RaceDayDb;User Id=sa;Password=${MSSQL_SA_PASSWORD:-RaceDayDev!Pass2468};TrustServerCertificate=True;Encrypt=False"
+      AzureBlob__ConnectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;"
+    ports:
+      - "127.0.0.1:5080:8080"
+  mvc:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mvc
+    depends_on:
+      - api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ApiSettings__BaseUrl: http://api:8080/
+    ports:
+      - "127.0.0.1:8080:8080"
+volumes:
+  sql_data:
+  blob_data:

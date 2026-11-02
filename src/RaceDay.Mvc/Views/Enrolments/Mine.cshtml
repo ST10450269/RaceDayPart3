@@ -1,0 +1,4 @@
+@model List<EnrolmentDto>
+@{ViewData["Title"]="My events";}
+<div class="section-title"><div><div class="kicker">ATHLETE DASHBOARD</div><h1 class="h2">My event entries</h1></div><a asp-controller="Home" asp-action="Index" class="button-primary text-decoration-none">Explore races</a></div>
+<div class="surface">@if(Model.Count==0){<div class="empty">You have not entered an event yet.</div>}else{<div class="table-responsive"><table class="table"><thead><tr><th>Event</th><th>Event date</th><th>Category</th><th>Status</th></tr></thead><tbody>@foreach(var e in Model){<tr><td><a asp-controller="Events" asp-action="Details" asp-route-id="@e.EventId">@e.EventName</a></td><td>@e.EventDateUtc.ToString("dd MMM yyyy")</td><td>@e.CategoryName</td><td><span class="status-label status-@e.Status">@e.Status</span></td></tr>}</tbody></table></div>}</div>
