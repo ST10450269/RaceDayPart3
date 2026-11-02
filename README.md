@@ -2,7 +2,7 @@
 
 A South African road-running, walking and cycling event-management solution built with ASP.NET Core 8.0. It comprises a **Code-First SQL Server Web API**, a separate **ASP.NET Core MVC frontend that consumes that API**, integration tests, Azure Blob-compatible image storage, and Docker packaging. Built to follow the 2026 RaceDay brief for all three PoE parts.
 
-> **Submission rule:** The official PoE accepts your **GitHub repository link on ARC**, **not a ZIP**. This ZIP is a source folder to open in Visual Studio, review, run and commit. The GitHub commit history, actual green CI screenshot and unlisted human-narrated YouTube videos cannot be manufactured and must be supplied by the person submitting the work. If AI assistance was used, disclose it according to the brief. Do not claim this source as unaided personal work.
+> **Submission rule:** Dear Students, please note, the official PoE accepts your **GitHub repository link on ARC**, **not a ZIP**. 
 
 ## Quick start: full system using Docker Desktop
 
