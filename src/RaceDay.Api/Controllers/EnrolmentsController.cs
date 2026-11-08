@@ -20,7 +20,7 @@ public sealed class EnrolmentsController(RaceDayDbContext db):ControllerBase {
     }
     /// <summary>Show the current Participant's own race entries.</summary>
     [HttpGet("enrolments/mine"),SessionAuthorize("Participant")]
-    public async Task<List<EnrolmentDto>> Mine() {var id=SessionUser.Id(HttpContext);return await Select(db.Enrolments.AsNoTracking().Where(x=>x.ParticipantId==id)).OrderBy(x=>x.EventDateUtc).ToListAsync();}
+    public async Task<List<EnrolmentDto>> Mine() {var id=SessionUser.Id(HttpContext);return await Select(db.Enrolments.AsNoTracking().Where(x=>x.ParticipantId==id).OrderBy(x=>x.Event.DateUtc)).ToListAsync();}
     /// <summary>List the participants entered for one of your events.</summary>
     [HttpGet("events/{eventId:int}/enrolments"),SessionAuthorize("Organiser")]
     public async Task<ActionResult<List<EnrolmentDto>>> ByEvent(int eventId) {

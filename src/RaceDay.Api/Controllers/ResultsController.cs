@@ -23,7 +23,7 @@ public sealed class ResultsController(RaceDayDbContext db):ControllerBase {
     }
     /// <summary>See your own completed race results.</summary>
     [HttpGet("results/mine"),SessionAuthorize("Participant")]
-    public async Task<List<ResultDto>> Mine() {var id=SessionUser.Id(HttpContext);return await Select(db.Results.AsNoTracking().Where(x=>x.Enrolment.ParticipantId==id)).OrderByDescending(x=>x.EventDateUtc).ToListAsync();}
+    public async Task<List<ResultDto>> Mine() {var id=SessionUser.Id(HttpContext);return await Select(db.Results.AsNoTracking().Where(x=>x.Enrolment.ParticipantId==id).OrderByDescending(x=>x.Enrolment.Event.DateUtc)).ToListAsync();}
     /// <summary>See published results for an event you organise.</summary>
     [HttpGet("events/{eventId:int}/results"),SessionAuthorize("Organiser")]
     public async Task<ActionResult<List<ResultDto>>> EventResults(int eventId) {

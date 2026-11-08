@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using RaceDay.Api.Data;
@@ -15,7 +14,6 @@ public sealed class TestAppFactory:WebApplicationFactory<Program> {
         builder.UseEnvironment("Testing");
         builder.ConfigureTestServices(services=>{
             services.RemoveAll<DbContextOptions<RaceDayDbContext>>();
-            services.RemoveAll<IDbContextOptionsConfiguration<RaceDayDbContext>>();
             services.AddDbContext<RaceDayDbContext>(o=>o.UseSqlite(_connection));
         });
     }
